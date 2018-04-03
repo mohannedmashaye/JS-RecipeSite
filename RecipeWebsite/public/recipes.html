@@ -1,0 +1,83 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Assignment 4</title>
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', () =>{
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = () =>{
+					if(xhr.readyState == 4 && xhr.status == 200) {
+						//console.log(xhr.response);
+						let response = JSON.parse(xhr.responseText);
+						var obj = JSON.parse(JSON.parse(response));
+						console.log(obj);
+						let ingredientdiv = document.getElementById('gallery');
+						ingredientdiv.innerHTML = '';
+
+						for(var i = 0;i<30;i++){
+							console.log("+++",obj.recipes[i]);
+							ingredientdiv.innerHTML = ingredientdiv.innerHTML + `
+							<div class = "slide" style ="float:left">
+							<a target="_blank" href="${obj.recipes[i].f2f_url}">
+								<img src="${obj.recipes[i].image_url}" width="350" height = "250">
+							</a>
+							<div class="title" style="text-align:center">${obj.recipes[i].title}</div>
+							</div>
+							`
+						}
+					}
+				}
+				console.log("Page loaded");
+				xhr.open('post', `/`, true);
+				xhr.send();
+			});
+
+		</script>
+	</head>
+	<body>
+		<style>
+			body
+			{
+				background: white;
+			}
+			.p{
+				font-family:georgia;
+				color:#c41b12;
+				font-weight:bold;
+			}
+			h1
+			{
+				font-family:georgia;
+				color:#c41b12;
+				font-size:500%;
+			}
+			h2
+			{
+				color:#c41b12;
+				padding: 30px;
+			}
+			.slide {
+				margin: 5px;
+			    border: 1px solid #ccc;
+			    display: inline;
+			    float: left;
+			}
+			.slide:hover {
+			    border: 1px solid #c41b12;
+			}
+			.sub{
+				background-color: grey;
+				border: none;
+				color: white;
+			}
+
+		</style>
+
+		<div style = "text-align:left">
+  			<p class="p" style="display:inline"></p> <input id="text" type="text" name="ingredient">
+  			<input class="sub" method = "post" id="submit" type="submit" value="Input" onClick = "handleSubmitButton()">
+		</div>
+		<div id = "gallery" style="text-align: center"></div>
+		<script type="text/javascript" src="assignment4.js"></script>
+	</body>
+</html>
